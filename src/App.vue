@@ -3,12 +3,15 @@
 import { RouterLink, RouterView } from 'vue-router'
 
 
+
 </script>
 
 <template>
- <el-button type="primary">何舒驰</el-button>
+    <RouterView />
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
+.test {
+    color: $priceColor;
+}
 </style>
