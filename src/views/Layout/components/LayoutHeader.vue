@@ -1,16 +1,9 @@
 <script setup>
-import { getCategoryAPI }  from '@/apis/layoutAPI'; 
-import {onMounted,ref} from 'vue'
+import { useCategoryListStore } from '@/stores/categoryList';
+import { storeToRefs } from 'pinia';
 
-
-const categoryList=ref([])
-const getCategory= async ()=>{
-    const res =await getCategoryAPI()
-    console.log(res);
-    categoryList.value=res.result
-}
-onMounted(()=>{getCategory()})
-//getCategory()
+const categoryListStore = useCategoryListStore()
+const { categoryList } = storeToRefs(categoryListStore)
 
 </script>
 
@@ -42,6 +35,7 @@ onMounted(()=>{getCategory()})
     position: sticky;
     z-index: 1000;
     top: 0;
+
     .container {
         display: flex;
         align-items: center;
@@ -63,7 +57,7 @@ onMounted(()=>{getCategory()})
         width: 820px;
         display: flex;
         padding-left: 40px;
-        // position: relative;
+        position: relative;
         z-index: 998;
 
         li {
@@ -93,7 +87,7 @@ onMounted(()=>{getCategory()})
     .search {
         width: 170px;
         height: 32px;
-        // position: relative;
+        position: relative;
         border-bottom: 1px solid #e7e7e7;
         line-height: 32px;
 
@@ -116,7 +110,7 @@ onMounted(()=>{getCategory()})
             height: 32px;
             line-height: 32px;
             text-align: center;
-            // position: relative;
+            position: relative;
             display: block;
 
             .icon-cart {
@@ -125,7 +119,7 @@ onMounted(()=>{getCategory()})
 
             em {
                 font-style: normal;
-                // position: absolute;
+                position: absolute;
                 right: 0;
                 top: 0;
                 padding: 1px 6px;

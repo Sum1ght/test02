@@ -1,8 +1,7 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
+//*env enf imp imd sto clg nfn anfn aa
 import { RouterLink, RouterView } from 'vue-router'
-
-
 
 </script>
 
