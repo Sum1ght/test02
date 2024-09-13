@@ -1,17 +1,18 @@
+import { createApp } from "vue";
+import App from "./App.vue";
 
-import { createApp } from "vue"
+import router from "./router";
 import { createPinia } from "pinia";
 
-import App from "./App.vue";
-import router from "./router";
+import { lazyPlugin } from "@/directives/index";
 
-
-import "@/styles/common.scss"
-import '@/assets/iconfont/iconfont.css';
+import "@/assets/iconfont/iconfont.css";
+import "@/styles/common.scss";
 
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+app.use(lazyPlugin);
 
 app.mount("#app");

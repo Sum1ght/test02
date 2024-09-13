@@ -1,6 +1,6 @@
 <script setup>
 import HomePanel from "./HomePanel.vue";
-import { getHotAPI } from "@/apis/home";
+import { getHotAPI } from "@/apis/HomeAPI";
 import { ref } from "vue";
 const hotList = ref([]);
 const getHotList = async () => {
@@ -11,7 +11,7 @@ getHotList();
 </script>
 
 <template>
-  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
+  <HomePanel  title="人气推荐" sub-title="人气爆款 不容错过">
     <ul class="goods-list">
       <li v-for="item in hotList" :key="item.id">
         <RouterLink to="/">
