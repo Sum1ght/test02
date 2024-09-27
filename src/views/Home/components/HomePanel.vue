@@ -1,4 +1,5 @@
 <script setup>
+//定义组件传入属性
 defineProps({
   title: {
     type: String,
@@ -14,13 +15,14 @@ defineProps({
 <template>
   <div class="home-panel">
     <div class="container">
+      <!-- 主标题和副标题 -->
       <div class="head">
-        <!-- 主标题和副标题 -->
         <h3>
           {{ title }}<small>{{ subTitle }}</small>
         </h3>
       </div>
       <!-- 主体内容区域 -->
+      <!-- 插槽 -->
       <slot />
     </div>
   </div>

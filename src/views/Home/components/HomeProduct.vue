@@ -1,37 +1,49 @@
 <script setup>
-// import HomePanel from "./HomePanel.vue";
+import { getProductAPI } from '@/apis/homeAPI';
+import GoodItem from "@/components/GoodItem/index.vue";
+import { onMounted, ref } from 'vue';
+import HomePanel from "./HomePanel.vue";
+
+//获取产品数据 包括每个一级种类和它下属的货物
+const productData = ref([])
+const getProduct = async () => {
+  const res = await getProductAPI()
+  productData.value = res.result
+}
+//初始化
+onMounted(() => getProduct())
 </script>
 
 <template>
   <div class="home-product">
-    <!-- <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
+    <!-- 每个一级种类面板 -->
+    <HomePanel :title="item.name" v-for="item in productData" :key="item.id">
       <div class="box">
+        <!-- 首部大图 -->
         <RouterLink class="cover" to="/">
-          <img :src="cate.picture" />
+          <img v-img-lazy="item.picture" />
           <strong class="label">
-            <span>{{ cate.name }}馆</span>
-            <span>{{ cate.saleInfo }}</span>
+            <span>{{ item.name }}馆</span>
+            <span>{{ item.saleInfo }}</span>
           </strong>
         </RouterLink>
+        <!-- 后面的具体货物 -->
         <ul class="goods-list">
-          <li v-for="good in cate.goods" :key="good.id">
-            <RouterLink to="/" class="goods-item">
-              <img :src="good.picture" alt="" />
-              <p class="name ellipsis">{{ good.name }}</p>
-              <p class="desc ellipsis">{{ good.desc }}</p>
-              <p class="price">&yen;{{ good.price }}</p>
-            </RouterLink>
+          <li v-for="good in item.goods" :key="good.id">
+            <GoodItem :good />
           </li>
         </ul>
       </div>
-    </HomePanel> -->
+    </HomePanel>
   </div>
+
 </template>
 
 <style scoped lang="scss">
 .home-product {
   background: #fff;
   margin-top: 20px;
+
   .sub {
     margin-bottom: 2px;
 
@@ -112,42 +124,6 @@
         &:nth-child(4n) {
           margin-right: 0;
         }
-      }
-    }
-
-    .goods-item {
-      display: block;
-      width: 220px;
-      padding: 20px 30px;
-      text-align: center;
-      transition: all 0.5s;
-
-      &:hover {
-        transform: translate3d(0, -3px, 0);
-        box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
-      }
-
-      img {
-        width: 160px;
-        height: 160px;
-      }
-
-      p {
-        padding-top: 10px;
-      }
-
-      .name {
-        font-size: 16px;
-      }
-
-      .desc {
-        color: #999;
-        height: 29px;
-      }
-
-      .price {
-        color: $priceColor;
-        font-size: 20px;
       }
     }
   }

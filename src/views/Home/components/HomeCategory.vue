@@ -1,16 +1,20 @@
 <script setup>
-import { useCategoryListStore } from '@/stores/categoryList';
+import { useCategoryStore } from '@/stores/category';
 import { storeToRefs } from 'pinia';
 
-const categoryListStore = useCategoryListStore();
-const { categoryList } = storeToRefs(categoryListStore);
+//获取分类列表的全局状态
+const categoryStore = useCategoryStore();
+const { categoryData } = storeToRefs(categoryStore);
 </script>
 
 <template>
     <div class="home-category">
         <ul class="menu">
-            <li v-for="item in categoryList" :key="item.id">
-                <RouterLink to="/">{{ item.name }}</RouterLink>
+            <li v-for="item in categoryData" :key="item.id">
+                <!-- 一级分类 -->
+                <!-- 不知道为什么不可以设动态路由 -->
+                <RouterLink to='/'>{{ item.name }}</RouterLink>
+                <!-- 二级分类里选前俩 -->
                 <RouterLink v-for="i in item.children.slice(0, 2)" :key="i.id" to="/">{{ i.name }}</RouterLink>
                 <!-- 弹层layer位置 -->
                 <div class="layer">
@@ -18,13 +22,13 @@ const { categoryList } = storeToRefs(categoryListStore);
                     <ul>
                         <li v-for="i in item.goods" :key="i.id">
                             <RouterLink to="/">
-                                <img :src="i.picture" alt="" />
+                                <img :src="i.picture" alt="加载中" />
                                 <div class="info">
                                     <p class="name ellipsis-2">
                                         {{ i.name }}
                                     </p>
                                     <p class="desc ellipsis">{{ i.desc }}</p>
-                                    <p class="price"><i>¥</i>{{ i.price }}</p>
+                                    <p class="price"><i>&yen;</i>{{ i.price }}</p>
                                 </div>
                             </RouterLink>
                         </li>
@@ -40,7 +44,7 @@ const { categoryList } = storeToRefs(categoryListStore);
 .home-category {
     width: 250px;
     height: 500px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6);
     position: relative;
     z-index: 99;
 

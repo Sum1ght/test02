@@ -1,27 +1,44 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Layout from "@/views/Layout/index.vue";
 import Home from "@/views/Home/index.vue";
-import Category from "@/views/Category/index.vue";
+import Layout from "@/views/Layout/index.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "Layout",
       component: Layout,
-      children:[
+      children: [
         {
-          path:"",
-          name:"home",
-          component:Home
+          path: "home",
+          name: "home",
+          component: Home,
+        },
+        //用一个重定向把空白路由转到home去
+        //?但是必须先声明home，不知道为什么
+        {
+          path: "",
+          name: "blank",
+          //!不能直接写  'home' 否则就是相对于当前页面后添加/home
+          redirect: "/home",
         },
         {
-          path:"category",
-          name:"category",
-          component:Category
+          path: "category/:id",
+          name: "category",
+          component: () => import("@/views/Category/index.vue"),
         },
-      ]
+        {
+          path: "category/sub/:id",
+          name: "subCategory",
+          component: () => import("@/views/SubCategory/index.vue"),
+        },
+        {
+          path: "detail/:id",
+          name: "detail",
+          component: () => import("@/views/Detail/index.vue"),
+        },
+      ],
     },
     {
       path: "/login",
@@ -32,6 +49,11 @@ const router = createRouter({
       component: () => import("@/views/Login/index.vue"),
     },
   ],
+  // scrollBehavior(){
+  //   return{
+  //     top:0
+  //   }
+  // }
 });
 
 export default router;

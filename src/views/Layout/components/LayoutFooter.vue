@@ -30,35 +30,35 @@
         </div>
         <!-- 其它 -->
         <div class="extra">
-            <div class="container">
-                <div class="slogan">
-                    <a href="javascript:;">
-                        <i class="iconfont icon-footer01"></i>
-                        <span>价格亲民</span>
-                    </a>
-                    <a href="javascript:;">
-                        <i class="iconfont icon-footer02"></i>
-                        <span>物流快捷</span>
-                    </a>
-                    <a href="javascript:;">
-                        <i class="iconfont icon-footer03"></i>
-                        <span>品质新鲜</span>
-                    </a>
-                </div>
-                <!-- 版权信息 -->
-                <div class="copyright">
-                    <p>
-                        <a href="javascript:;">关于我们</a>
-                        <a href="javascript:;">帮助中心</a>
-                        <a href="javascript:;">售后服务</a>
-                        <a href="javascript:;">配送与验收</a>
-                        <a href="javascript:;">商务合作</a>
-                        <a href="javascript:;">搜索推荐</a>
-                        <a href="javascript:;">友情链接</a>
-                    </p>
-                    <p>CopyRight © 小兔鲜儿</p>
-                </div>
+            <!-- <div class="container"> -->
+            <div class="slogan">
+                <a href="javascript:;">
+                    <i class="iconfont icon-footer01"></i>
+                    <span>价格亲民</span>
+                </a>
+                <a href="javascript:;">
+                    <i class="iconfont icon-footer02"></i>
+                    <span>物流快捷</span>
+                </a>
+                <a href="javascript:;">
+                    <i class="iconfont icon-footer03"></i>
+                    <span>品质新鲜</span>
+                </a>
             </div>
+            <!-- 版权信息 -->
+            <div class="copyright">
+                <p>
+                    <a href="javascript:;">关于我们</a>
+                    <a href="javascript:;">帮助中心</a>
+                    <a href="javascript:;">售后服务</a>
+                    <a href="javascript:;">配送与验收</a>
+                    <a href="javascript:;">商务合作</a>
+                    <a href="javascript:;">搜索推荐</a>
+                    <a href="javascript:;">友情链接</a>
+                </p>
+                <p>CopyRight © 小兔鲜儿</p>
+            </div>
+            <!-- </div> -->
         </div>
     </footer>
 </template>
@@ -67,11 +67,14 @@
 .app_footer {
     overflow: hidden;
     background-color: #f5f5f5;
+    //跟layout页面隔开
     padding-top: 20px;
 
+    //联系我们
     .contact {
         background: #fff;
 
+        //外面一个标识意义上的父级容器，里面的container才是真正的样式容器
         .container {
             padding: 60px 0 40px 25px;
             display: flex;
@@ -84,21 +87,26 @@
             border-right: 1px solid #f2f2f2;
             color: #999;
 
+            //!记住这种风格整体统一，然后对特殊元素进行特殊处理的模式
             &:first-child {
+                //第一个元素本来继承了dl的左右内边距，现在去除了左边只保留右边
                 padding-left: 0;
             }
 
             &:last-child {
+                //这样就是四个dl块夹三根线了 
                 border-right: none;
                 padding-right: 0;
             }
         }
 
+        //标题
         dt {
             line-height: 1;
             font-size: 18px;
         }
 
+        //内容
         dd {
             margin: 36px 12px 0 0;
             float: left;
@@ -124,6 +132,7 @@
             }
         }
 
+        //二维码
         .qrcode {
             width: 92px;
             height: 92px;
@@ -131,6 +140,7 @@
             border: 1px solid #ededed;
         }
 
+        //下载说明
         .download {
             padding-top: 5px;
             font-size: 14px;
@@ -153,6 +163,7 @@
             }
         }
 
+        //服务热线
         .hotline {
             padding-top: 20px;
             font-size: 22px;
@@ -168,61 +179,66 @@
             }
         }
     }
-
+    //底部黑栏
     .extra {
         background-color: #333;
-    }
-
-    .slogan {
-        height: 178px;
-        line-height: 58px;
-        padding: 60px 100px;
-        border-bottom: 1px solid #434343;
-        display: flex;
-        justify-content: space-between;
-
-        a {
-            height: 58px;
+        //三个大说明
+        .slogan {
+            height: 178px;
             line-height: 58px;
-            color: #fff;
-            font-size: 28px;
+            padding: 60px 100px;
+            border-bottom: 1px solid #434343;
+            display: flex;
+            justify-content: space-around;
 
-            i {
-                font-size: 50px;
-                vertical-align: middle;
-                margin-right: 10px;
-                font-weight: 100;
-            }
+            a {
+                height: 58px;
+                line-height: 58px;
+                color: #fff;
+                font-size: 28px;
 
-            span {
-                vertical-align: middle;
-                text-shadow: 0 0 1px #333;
+                i {
+                    font-size: 50px;
+                    vertical-align: middle;
+                    margin-right: 10px;
+                    font-weight: 100;
+                }
+
+                span {
+                    vertical-align: middle;
+                    text-shadow: 0 0 1px #333;
+                }
             }
         }
-    }
 
-    .copyright {
-        height: 170px;
-        padding-top: 40px;
-        text-align: center;
-        color: #999;
-        font-size: 15px;
-
-        p {
-            line-height: 1;
-            margin-bottom: 20px;
-        }
-
-        a {
+        //底部链接
+        .copyright {
+            height: 170px;
+            padding-top: 40px;
+            text-align: center;
             color: #999;
-            line-height: 1;
-            padding: 0 10px;
-            border-right: 1px solid #999;
+            font-size: 15px;
 
-            &:last-child {
-                border-right: none;
+            p {
+                line-height: 1;
+                margin-bottom: 20px;
+
+                a {
+                    color: #999;
+                    line-height: 1;
+                    padding: 0 10px;
+                    border-right: 1px solid #999;
+
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
             }
+
+
         }
     }
+
+
 }
 </style>

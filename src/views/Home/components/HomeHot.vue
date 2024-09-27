@@ -1,19 +1,21 @@
 <script setup>
+import { getHotAPI } from "@/apis/homeAPI";
+import { onMounted, ref } from "vue";
 import HomePanel from "./HomePanel.vue";
-import { getHotAPI } from "@/apis/HomeAPI";
-import { ref } from "vue";
-const hotList = ref([]);
-const getHotList = async () => {
+
+const hotData = ref([]);
+const getHot = async () => {
   const res = await getHotAPI();
-  hotList.value = res.result;
+  hotData.value = res.result;
 };
-getHotList();
+onMounted(() => getHot())
 </script>
 
 <template>
-  <HomePanel  title="人气推荐" sub-title="人气爆款 不容错过">
+  <!-- 复用面板组件 -->
+  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
     <ul class="goods-list">
-      <li v-for="item in hotList" :key="item.id">
+      <li v-for="item in hotData" :key="item.id">
         <RouterLink to="/">
           <img v-img-lazy="item.picture" alt="" />
           <p class="name">{{ item.title }}</p>/
@@ -33,11 +35,14 @@ getHotList();
   li {
     width: 306px;
     height: 406px;
-    transition: all 0.5s;
+    margin-right: 10px;
+    //过渡效果
+    transition: all 0.3s;
 
     &:hover {
-      transform: translate3d(0, -3px, 0);
-      box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+      transform: translate3d(3px, -3px, -3px);
+      //垂直 水平 模糊 扩散
+      box-shadow: 6px 10px 5px 0px rgba(0, 0, 0, 0.5)
     }
 
     img {

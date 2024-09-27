@@ -1,10 +1,30 @@
 <script setup>
-import { useCategoryListStore } from '@/stores/categoryList';
+import { useCategoryStore } from '@/stores/category';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 
-const categoryListStore = useCategoryListStore()
-const { categoryList } = storeToRefs(categoryListStore)
-
+//获取数据
+const categoryStore = useCategoryStore();
+const { categoryData } = storeToRefs(categoryStore);
+//#实现激活样式不丢失
+const route = useRoute();
+const activeCategoryId = ref(null);
+//监听路由变化
+//*大道至简，分类讨论，if-else和中间值秒了
+onBeforeRouteUpdate((to) => {
+    const categoryId = to.params.id;
+    if (to.name === 'subCategory' && categoryId) {
+        // 直接用当前页面的id
+        activeCategoryId.value = route.params.id;
+    } else if (to.name === 'category' && categoryId) {
+        // 用要去的一级分类页面的id
+        activeCategoryId.value = categoryId;
+    } else {
+        // 非分类页面时取消激活
+        activeCategoryId.value = null;
+    }
+});
 </script>
 
 <template>
@@ -13,17 +33,17 @@ const { categoryList } = storeToRefs(categoryListStore)
             <h1 class="logo">
                 <RouterLink to="/">小兔鲜</RouterLink>
             </h1>
-            <ul class="app-header-nav">
-                <li class="home" v-for="item in categoryList" :key=item.id>
-                    <RouterLink to="/">{{ item.name }}</RouterLink>
+            <ul class="category">
+                <li v-for="item in categoryData" :key="item.id">
+                    <RouterLink :class="{ active: activeCategoryId === item.id }" :to="`/category/${item.id}`">
+                        {{ item.name }}{{ item.id }}
+                    </RouterLink>
                 </li>
             </ul>
             <div class="search">
                 <i class="iconfont icon-search"></i>
                 <input type="text" placeholder="搜一搜">
             </div>
-            <!-- 头部购物车 -->
-
         </div>
     </header>
 </template>
@@ -33,7 +53,8 @@ const { categoryList } = storeToRefs(categoryListStore)
 .app-header {
     background: #fff;
     position: sticky;
-    z-index: 1000;
+    //!太小有可能导致在特定部分被覆盖
+    z-index: 100;
     top: 0;
 
     .container {
@@ -41,6 +62,7 @@ const { categoryList } = storeToRefs(categoryListStore)
         align-items: center;
     }
 
+    //logo
     .logo {
         width: 200px;
 
@@ -53,7 +75,8 @@ const { categoryList } = storeToRefs(categoryListStore)
         }
     }
 
-    .app-header-nav {
+    //分类
+    .category {
         width: 820px;
         display: flex;
         padding-left: 40px;
@@ -61,22 +84,24 @@ const { categoryList } = storeToRefs(categoryListStore)
         z-index: 998;
 
         li {
-            margin-right: 40px;
-            width: 38px;
+            margin-right: 10px;
+            width: 60px;
             text-align: center;
+            line-height: 32px;
+            height: 32px;
 
             a {
                 font-size: 16px;
-                line-height: 32px;
-                height: 32px;
                 display: inline-block;
 
+                //悬浮变色加下划线
                 &:hover {
                     color: $xtxColor;
                     border-bottom: 1px solid $xtxColor;
                 }
             }
 
+            //选中后
             .active {
                 color: $xtxColor;
                 border-bottom: 1px solid $xtxColor;
@@ -84,15 +109,17 @@ const { categoryList } = storeToRefs(categoryListStore)
         }
     }
 
+    //搜索栏
     .search {
-        width: 170px;
-        height: 32px;
+        width: 160px;
+        height: 35px;
         position: relative;
         border-bottom: 1px solid #e7e7e7;
-        line-height: 32px;
+        line-height: 35px;
 
-        .icon-search {
-            font-size: 18px;
+        //对字体图标微调
+        .icon-search::before {
+            font-size: 15px;
             margin-left: 5px;
         }
 
@@ -100,6 +127,7 @@ const { categoryList } = storeToRefs(categoryListStore)
             width: 140px;
             padding-left: 5px;
             color: #666;
+            height: 30px;
         }
     }
 
