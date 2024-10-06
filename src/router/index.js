@@ -43,17 +43,19 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
+      //这是对懒加载的描述
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import("@/views/Login/index.vue"),
     },
   ],
-  // scrollBehavior(){
-  //   return{
-  //     top:0
-  //   }
-  // }
+  //切换路由时返回顶部
+  scrollBehavior(){
+    return{
+      top:0
+    }
+  }
 });
 
 export default router;

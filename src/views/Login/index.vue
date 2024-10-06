@@ -1,18 +1,21 @@
 <!-- eslint-disable vue/multi-word-component-names -->
- //TODO 把密码隐藏位星号，加个显示是否隐藏密码的开关
+//TODO 把密码隐藏位星号，加个显示是否隐藏密码的开关
 <script setup>
-import { ref } from "vue";
 import router from "@/router";
-import { getUserAPI } from "@/apis/login";
-import { ElMessage } from 'element-plus'
-import 'element-plus/theme-chalk/el-message.css'
+import { useUserStore } from "@/stores/userStore";
+import { ElMessage } from 'element-plus';
+import 'element-plus/theme-chalk/el-message.css';
+import { ref } from "vue";
+
+//获取user全局状态
+const userStore = useUserStore()
 //表单对象
 const userInfo = ref({
     account: 'xiaotuxian001',
     password: '123456',
     agree: true
 })
-//规则对象（不用响应式）
+//规则对象（不用响应式,因为它与直接的视图无关）
 const rules = {
     account: [
         { required: true, message: '账号不能为空', trigger: 'blur' },
@@ -36,7 +39,8 @@ const doLogin = () => {
         // 以valid做为判断条件 如果通过校验才执行登录逻辑
         if (valid) {
             //!这里得传userInfo.value而不是userInfo
-            await getUserAPI(userInfo.value)
+            //?前面加await有可能导致持久化存储失效
+            await userStore.getUser(userInfo.value)
             // 1. 提示用户
             ElMessage({ type: 'success', message: '登录成功' })
             // 2. 跳转首页
@@ -70,7 +74,8 @@ const doLogin = () => {
                 </nav>
                 <div class="account-box">
                     <div class="form">
-                        <el-form label-position="top" label-width="60px" status-icon :model="userInfo" :rules ref="userInfoRef">
+                        <el-form label-position="top" label-width="60px" status-icon ref="userInfoRef" :model="userInfo"
+                            :rules>
                             <el-form-item prop="account" label="账户">
                                 <el-input v-model="userInfo.account" />
                             </el-form-item>
@@ -217,8 +222,6 @@ const doLogin = () => {
             //     color: red;
             // }
         }
-
-
     }
 }
 

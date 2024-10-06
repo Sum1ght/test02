@@ -1,5 +1,5 @@
 <script setup>
-import { useCategoryStore } from '@/stores/category';
+import { useCategoryStore } from '@/stores/categoryStore1';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
@@ -10,7 +10,7 @@ const { categoryData } = storeToRefs(categoryStore);
 //#实现激活样式不丢失
 const route = useRoute();
 const activeCategoryId = ref(null);
-//监听路由变化
+//##监听路由变化
 //*大道至简，分类讨论，if-else和中间值秒了
 onBeforeRouteUpdate((to) => {
     const categoryId = to.params.id;
@@ -36,7 +36,7 @@ onBeforeRouteUpdate((to) => {
             <ul class="category">
                 <li v-for="item in categoryData" :key="item.id">
                     <RouterLink :class="{ active: activeCategoryId === item.id }" :to="`/category/${item.id}`">
-                        {{ item.name }}{{ item.id }}
+                        {{ item.name }}
                     </RouterLink>
                 </li>
             </ul>

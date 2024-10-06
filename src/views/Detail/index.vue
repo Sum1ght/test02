@@ -52,7 +52,7 @@ onMounted(() => getDetail())
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-                             <ImageView :image-list="detailData.mainPictures"/>
+                            <ImageView :image-list="detailData.mainPictures" />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>
@@ -101,9 +101,9 @@ onMounted(() => getDetail())
                                 </dl>
                             </div>
                             <!-- sku组件 -->
-
+                            <XtxSku :goods="goods" @change="skuChange" />
                             <!-- 数据组件 -->
-
+                            <el-input-number v-model="count" @change="countChange" />
                             <!-- 按钮组件 -->
                             <div>
                                 <el-button size="large" class="btn">
@@ -136,9 +136,9 @@ onMounted(() => getDetail())
                         <!-- 24热榜+专题推荐 -->
                         <div class="goods-aside">
                             <!-- 24h -->
-                            <DetailHot :type="1"/>
+                            <DetailHot :type="1" />
                             <!-- 周 -->
-                            <DetailHot :type="2"/>
+                            <DetailHot :type="2" />
                         </div>
                     </div>
                 </div>

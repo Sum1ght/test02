@@ -1,17 +1,30 @@
 <script setup>
+import { useUserStore } from '@/stores/userStore';
+import { useRouter } from 'vue-router';
 
+//获取用户数据
+const userStore = useUserStore()
+//退出登录
+//!router必须在组件最顶层定义，以保证在组件的整个生命周期都能用，不然会无法跳转并报错Uncaught TypeError: Cannot read properties of undefined (reading 'push')
+const router = useRouter()
+const logOut = () => {
+    userStore.clearUser()
+    router.push('/login')
+}
 </script>
 
 <template>
     <nav class="app-topnav">
         <div class="container">
             <ul>
-                <!-- 单if用template套就行了 -->
-                <template v-if="false">
-                    <li><a href="javascript:;"><i class="iconfont icon-user">周杰伦</i></a></li>
+                <!-- 单if-else控制正反两套模板 -->
+                <template v-if="userStore.userData.token">
+                    <li><a href="javascript:;"><i class="iconfont icon-user">{{ userStore.userData.account }}</i></a>
+                    </li>
                     <li>
                         <!-- 点击后弹出确认提示 防误触 -->
-                        <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
+                        <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消"
+                            @confirm="logOut">
                             <template #reference>
                                 <a href="javascript:;">退出登录</a>
                             </template>
@@ -20,8 +33,6 @@
                     <li><a href="javascript:;">我的订单</a></li>
                     <li><a href="javascript:;">会员中心</a></li>
                 </template>
-
-                <!-- 还没实现 -->
                 <template v-else>
                     <li><a href="javascript:;" @click="$router.push('/login')">请先登录</a></li>
                     <li><a href="javascript:;">帮助中心</a></li>

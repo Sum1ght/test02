@@ -2,7 +2,7 @@
 import { getBannerAPI } from '@/apis/homeAPI';
 import { onMounted, ref } from 'vue';
 
-//!不要把操作暴露在外，都封装进函数内使得可以操纵自如，也就是说外层只有数据和函数，没有孤行操作
+//*不要把操作暴露在外，都封装进函数内使得可以操纵自如，也就是说外层只有数据和函数，没有孤行操作
 //获取轮播图数据
 const bannerData = ref([])
 const getBanner = async () => {

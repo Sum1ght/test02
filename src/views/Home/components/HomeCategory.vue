@@ -1,5 +1,5 @@
 <script setup>
-import { useCategoryStore } from '@/stores/category';
+import { useCategoryStore } from '@/stores/categoryStore';
 import { storeToRefs } from 'pinia';
 
 //获取分类列表的全局状态
@@ -12,7 +12,7 @@ const { categoryData } = storeToRefs(categoryStore);
         <ul class="menu">
             <li v-for="item in categoryData" :key="item.id">
                 <!-- 一级分类 -->
-                <!-- 不知道为什么不可以设动态路由 -->
+                <!-- //不知道为什么不可以设动态路由 -->
                 <RouterLink to='/'>{{ item.name }}</RouterLink>
                 <!-- 二级分类里选前俩 -->
                 <RouterLink v-for="i in item.children.slice(0, 2)" :key="i.id" to="/">{{ i.name }}</RouterLink>

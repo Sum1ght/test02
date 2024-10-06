@@ -1,6 +1,6 @@
 import { useIntersectionObserver } from "@vueuse/core";
 //定义全局指令
-//!实现图片懒加载
+//*实现图片懒加载
 export const lazyPlugin = {
   install(app) {
     app.directive("img-lazy", {

@@ -74,7 +74,7 @@
     .contact {
         background: #fff;
 
-        //外面一个标识意义上的父级容器，里面的container才是真正的样式容器
+        //*外面一个标识意义上的父级容器，里面的container才是真正的样式容器
         .container {
             padding: 60px 0 40px 25px;
             display: flex;
@@ -87,14 +87,14 @@
             border-right: 1px solid #f2f2f2;
             color: #999;
 
-            //!记住这种风格整体统一，然后对特殊元素进行特殊处理的模式
+            //*记住这种风格整体统一，然后对特殊元素进行特殊处理的模式
             &:first-child {
-                //第一个元素本来继承了dl的左右内边距，现在去除了左边只保留右边
+                //*第一个元素本来继承了dl的左右内边距，现在去除了左边只保留右边
                 padding-left: 0;
             }
 
             &:last-child {
-                //这样就是四个dl块夹三根线了 
+                //*这样就是四个dl块夹三根线了 
                 border-right: none;
                 padding-right: 0;
             }
