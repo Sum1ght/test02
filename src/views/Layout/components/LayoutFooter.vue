@@ -160,6 +160,11 @@
                 color: #fff;
                 border-radius: 2px;
                 background-color: $xtxColor;
+
+                /* 鼠标悬浮时的颜色 */
+                &:hover {
+                    color:  hsl(0, 0%, 50%);
+                }
             }
         }
 
@@ -179,9 +184,11 @@
             }
         }
     }
+
     //底部黑栏
     .extra {
         background-color: #333;
+
         //三个大说明
         .slogan {
             height: 178px;
@@ -219,6 +226,7 @@
             color: #999;
             font-size: 15px;
 
+
             p {
                 line-height: 1;
                 margin-bottom: 20px;
@@ -228,6 +236,10 @@
                     line-height: 1;
                     padding: 0 10px;
                     border-right: 1px solid #999;
+
+                    &:hover {
+                        color: $xtxColor;
+                    }
 
                     &:last-child {
                         border-right: none;

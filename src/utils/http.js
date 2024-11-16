@@ -2,8 +2,10 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
-import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/userStore";
 import router from "@/router/index";
+
+//*API解耦
 const httpInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
   timeout: 10000,
@@ -15,7 +17,6 @@ httpInstance.interceptors.request.use(
   (config) => {
     const userStore = useUserStore();
     const token = userStore.userData.token;
-    console.log(token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,9 +29,11 @@ httpInstance.interceptors.response.use(
   (res) => res.data,
   (e) => {
     //全局返回错误提示
-    ElMessage({ type: "warning", message: e.response.data.message });
+    console.log(e);
+    
+    ElMessage({ type: "warning", message: e.message });
     //401token失效处理
-    if (e.response.status === 401) {
+    if (e.request.status === 401) {
       const userStore = useUserStore();
       userStore.clearUser();
       router.replace("/login");

@@ -155,7 +155,7 @@ const { categoryData } = storeToRefs(categoryStore);
                     display: block;
                 }
             }
-        }
+        } 
     }
 }
 </style>

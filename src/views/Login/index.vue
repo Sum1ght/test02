@@ -2,17 +2,18 @@
 //TODO 把密码隐藏位星号，加个显示是否隐藏密码的开关
 <script setup>
 import router from "@/router";
+import { useCartStore } from '@/stores/cartStore';
 import { useUserStore } from "@/stores/userStore";
 import { ElMessage } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
 import { ref } from "vue";
-
-//获取user全局状态
+//获取user cart全局状态
+const cartStore = useCartStore()
 const userStore = useUserStore()
 //表单对象
 const userInfo = ref({
-    account: 'xiaotuxian001',
-    password: '123456',
+    account: 'heima284',
+    password: 'hm#qd@23!',
     agree: true
 })
 //规则对象（不用响应式,因为它与直接的视图无关）
@@ -43,7 +44,11 @@ const doLogin = () => {
             await userStore.getUser(userInfo.value)
             // 1. 提示用户
             ElMessage({ type: 'success', message: '登录成功' })
-            // 2. 跳转首页
+            // 2. 合并本地购物车
+            await cartStore.mergeCart()
+            // 3. 获取购物车信息
+            await cartStore.getCartList()
+            // 4. 跳转首页
             router.replace('/')
         }
     })

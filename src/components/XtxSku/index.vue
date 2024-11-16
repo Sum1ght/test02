@@ -1,19 +1,3 @@
-<template>
-  <div class="goods-sku">
-    <dl v-for="item in goods.specs" :key="item.id">
-      <dt>{{ item.name }}</dt>
-      <dd>
-        <template v-for="val in item.values" :key="val.name">
-          <img :class="{ selected: val.selected, disabled: val.disabled }" @click="clickSpecs(item, val)"
-            v-if="val.picture" :src="val.picture" />
-          <span :class="{ selected: val.selected, disabled: val.disabled }" @click="clickSpecs(item, val)" v-else>{{
-              val.name
-          }}</span>
-        </template>
-      </dd>
-    </dl>
-  </div>
-</template>
 <script>
 import { watchEffect } from 'vue'
 import getPowerSet from './power-set'
@@ -45,7 +29,7 @@ const getPathMap = (skus) => {
 }
 
 // 初始化禁用状态
-function initDisabledStatus (specs, pathMap) {
+function initDisabledStatus(specs, pathMap) {
   if (specs && specs.length > 0) {
     specs.forEach(spec => {
       spec.values.forEach(val => {
@@ -99,7 +83,7 @@ export default {
     }
   },
   emits: ['change'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     let pathMap = {}
     watchEffect(() => {
       // 得到所有字典集合
@@ -128,7 +112,9 @@ export default {
         // 从路径字典中得到skuId
         const skuId = pathMap[selectedArr.join(spliter)][0]
         const sku = props.goods.skus.find(sku => sku.id === skuId)
+        console.log(sku);
         // 传递数据给父组件
+        console.log("传递sku给父组件");
         emit('change', {
           skuId: sku.id,
           price: sku.price,
@@ -136,7 +122,9 @@ export default {
           inventory: sku.inventory,
           specsText: sku.specs.reduce((p, n) => `${p} ${n.name}：${n.valueName}`, '').trim()
         })
+        // emit('change', sku)
       } else {
+        console.log("传递失败");
         emit('change', {})
       }
     }
@@ -144,6 +132,25 @@ export default {
   }
 }
 </script>
+
+
+<template>
+  <div class="goods-sku">
+    <dl v-for="item in goods.specs" :key="item.id">
+      <dt>{{ item.name }}</dt>
+      <dd>
+        <template v-for="val in item.values" :key="val.name">
+          <img :class="{ selected: val.selected, disabled: val.disabled }" @click="clickSpecs(item, val)"
+            v-if="val.picture" :src="val.picture" />
+          <span :class="{ selected: val.selected, disabled: val.disabled }" @click="clickSpecs(item, val)" v-else>{{
+            val.name
+          }}</span>
+        </template>
+      </dd>
+    </dl>
+  </div>
+</template>
+
 
 <style scoped lang="scss">
 @mixin sku-state-mixin {

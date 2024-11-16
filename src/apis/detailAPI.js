@@ -1,6 +1,7 @@
 import httpInstance from "@/utils/http";
 
 export const getDetailAPI = (id) => {
+  console.log("调用成功");
   return httpInstance({
     url: "/goods",
     params: {

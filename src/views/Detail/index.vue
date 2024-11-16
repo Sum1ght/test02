@@ -5,15 +5,54 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
 import ImageView from "@/components/ImageView/index.vue";
+import XtxSku from "@/components/XtxSku/index.vue"
+import { useCartStore } from "@/stores/cartStore";
+import { ElMessage } from "element-plus";
 
-const route = useRoute()
-const detailData = ref({})
+//获取货物数据
+const route = useRoute();
+const detailData = ref({});
 const getDetail = async () => {
-    const res = await getDetailAPI(route.params.id)
-    detailData.value = res.result
+    const res = await getDetailAPI(route.params.id);
+    detailData.value = res.result;
 }
-onMounted(() => getDetail())
+//获取cartStore
+const cartStore = useCartStore();
+// sku规格被操作时
+let skuObj = {};
+const skuChange = (sku) => {
+    skuObj = sku;
+}
 
+// count增减商品数量
+const count = ref(1);
+// eslint-disable-next-line no-unused-vars
+const countChange = (count) => {
+}
+// 添加购物车
+
+const addCart = () => {
+    //!注意skuObj的结构
+    if (skuObj.skuId) {
+        console.log(skuObj, cartStore.addCart)
+        // 规则已经选择  触发action
+        cartStore.addCart({
+            id: detailData.value.id,
+            name: detailData.value.name,
+            picture: detailData.value.mainPictures[0],
+            price: detailData.value.price,
+            count: count.value,
+            skuId: skuObj.skuId,
+            attrsText: skuObj.specsText,
+            selected: true
+        })
+        ElMessage({ type: 'success', message: '添加成功' })
+    } else {
+        // 规格没有选择 提示用户
+        ElMessage.warning('请选择规格');
+    }
+}
+onMounted(() => getDetail());   
 </script>
 
 <template>
@@ -101,12 +140,12 @@ onMounted(() => getDetail())
                                 </dl>
                             </div>
                             <!-- sku组件 -->
-                            <XtxSku :goods="goods" @change="skuChange" />
+                            <XtxSku :goods="detailData" @change="skuChange" />
                             <!-- 数据组件 -->
-                            <el-input-number v-model="count" @change="countChange" />
+                            <el-input-number :min="0" :max="10" v-model="count" />
                             <!-- 按钮组件 -->
                             <div>
-                                <el-button size="large" class="btn">
+                                <el-button size="large" class="btn" @click="addCart">
                                     加入购物车
                                 </el-button>
                             </div>

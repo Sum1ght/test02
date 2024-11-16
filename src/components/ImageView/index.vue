@@ -33,6 +33,7 @@ watch([elementX, elementY, isOutside], () => {
     // console.log('后续逻辑执行了')
     // 有效范围内控制滑块距离
     // 横向
+    //*x>t && x<w-t w-2t=hw hw即滑块宽，w即容器宽，求出t，t即滑块中心
     if (elementX.value > 100 && elementX.value < 300) {
         left.value = elementX.value - 100
     }
@@ -49,6 +50,8 @@ watch([elementX, elementY, isOutside], () => {
     if (elementY.value < 100) { top.value = 0 }
 
     // 控制大图的显示
+    //*负号是为了让背景图与鼠标滑动的方向反向，乘2是为了使速度变快，模拟出放大的效果
+    //*貌似只能乘2，乘3右边有部分会变成空图 应该是看容器和滑块图的宽高比
     positionX.value = -left.value * 2
     positionY.value = -top.value * 2
 })
@@ -103,10 +106,10 @@ watch([elementX, elementY, isOutside], () => {
         height: 400px;
         z-index: 500;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        //使图片铺满
         background-repeat: no-repeat;
         // 背景图:盒子的大小 = 2:1  将来控制背景图的移动来实现放大的效果查看 background-position
         background-size: 800px 800px;
-        background-color: #f8f8f8;
     }
 
     .layer {

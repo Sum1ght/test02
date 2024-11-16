@@ -56,7 +56,7 @@ const title = computed(() => TITLEMAP[props.type])
         font-size: 18px;
         line-height: 70px;
         padding-left: 25px;
-        margin-bottom: 10px;
+        margin-top: 20px;
         font-weight: normal;
     }
 

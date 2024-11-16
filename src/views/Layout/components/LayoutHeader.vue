@@ -1,8 +1,9 @@
 <script setup>
-import { useCategoryStore } from '@/stores/categoryStore1';
+import { useCategoryStore } from '@/stores/categoryStore';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import HeaderCart from './HeaderCart.vue';
 
 //获取数据
 const categoryStore = useCategoryStore();
@@ -14,18 +15,15 @@ const activeCategoryId = ref(null);
 //*大道至简，分类讨论，if-else和中间值秒了
 onBeforeRouteUpdate((to) => {
     const categoryId = to.params.id;
-    if (to.name === 'subCategory' && categoryId) {
-        // 直接用当前页面的id
-        activeCategoryId.value = route.params.id;
-    } else if (to.name === 'category' && categoryId) {
-        // 用要去的一级分类页面的id
-        activeCategoryId.value = categoryId;
-    } else {
-        // 非分类页面时取消激活
-        activeCategoryId.value = null;
-    }
+    activeCategoryId.value =
+        to.name === 'subCategory' && categoryId
+            ? route.params.id
+            : to.name === 'category' && categoryId
+            ? categoryId
+            : null;
 });
 </script>
+
 
 <template>
     <header class='app-header'>
@@ -44,6 +42,7 @@ onBeforeRouteUpdate((to) => {
                 <i class="iconfont icon-search"></i>
                 <input type="text" placeholder="搜一搜">
             </div>
+            <HeaderCart />
         </div>
     </header>
 </template>
@@ -55,7 +54,8 @@ onBeforeRouteUpdate((to) => {
     position: sticky;
     //!太小有可能导致在特定部分被覆盖
     z-index: 100;
-    top: 0;
+    //!设为0会留一条细线出来
+    top: -1px;
 
     .container {
         display: flex;
